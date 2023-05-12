@@ -147,10 +147,42 @@ public class Main {
                 return 0;
             }
             else{
-                //System.out.println("NieOK-82");
+                System.out.println("NieOK-82");
             }
         }
         return 0;
+    }
+
+    private static boolean XOR(String[][] s, int size) {
+        //System.out.println("START XORA");
+        String gps = null;
+        for (int i = 0; s[size][i] != null; i++){
+            if (i == 0){
+                gps = s[size][i].substring(1,6);
+            }
+            else{
+                gps += s[size][i];
+            }
+            if (s[size][i+1] != null){
+                gps += ",";
+            }
+            //System.out.println(gps);
+        }
+        //System.out.println("STRING GPS "+gps);
+        String ctrl = gps.substring(0, gps.length() - 3);
+        //System.out.println("STRING CTRL "+ctrl);
+        String s_ctrl = gps.substring(gps.length() - 2, gps.length());
+        //System.out.println("STRING S_CTRL "+s_ctrl);
+        int control_sum = 0;
+        for (int j = 0; j<ctrl.length(); j++){
+            control_sum ^= ctrl.charAt(j);
+        }
+        String s_control_sum = Integer.toHexString(control_sum).toUpperCase();
+        //System.out.println(";KONIEC XORA");
+        if (s_control_sum.equals(s_ctrl))
+            return true;
+        else
+            return false;
     }
 
     public static void main(String[] args) {
@@ -184,48 +216,78 @@ public class Main {
                     }
                 }
             }
-            Check(data, size);
+            //Check(data, size);
             for (int ii = 0; ii < data.length; ii++){
                 //System.out.println(data[ii][0].substring(3,6));
                 //System.out.println(data.length);
                 if (data[ii][0] != null){
                     if (data[ii][0].substring(3,6).equals("RMC") && data[ii][11] != null && data[ii][12] == null){
-                        RMC(data, ii);
+                        if (XOR(data, ii) == true) {
+                            RMC(data, ii);
+                        }
+                        else{
+                            System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowa suma kontrolna");
+                        }
                     }
                     else if (data[ii][0].substring(3,6).equals("RMC") && (data[ii][11] == null || data[ii][12] != null)){
                         System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowo podane dane");
                     }
 
                     else if(data[ii][0].substring(3,6).equals("GGA") && data[ii][14] != null && data[ii][15] == null){
-                        GGA(data, ii);
+                        if (XOR(data, ii) == true) {
+                            GGA(data, ii);
+                        }
+                        else{
+                            System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowa suma kontrolna");
+                        }
                     }
                     else if (data[ii][0].substring(3,6).equals("GGA") && (data[ii][14] == null || data[ii][15] != null)){
                         System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowo podane dane");
                     }
 
                     else if(data[ii][0].substring(3,6).equals("GSA") && data[ii][17] != null && data[ii][18] == null){
-                        GSA(data, ii);
+                        if (XOR(data, ii) == true) {
+                            GSA(data, ii);
+                        }
+                        else{
+                            System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowa suma kontrolna");
+                        }
                     }
                     else if (data[ii][0].substring(3,6).equals("GSA") && (data[ii][17] == null || data[ii][18] != null)){
                         System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowo podane dane");
                     }
 
                     else if(data[ii][0].substring(3,6).equals("GSV") && data[ii][19] != null && data[ii][20] == null){
-                        GSV(data, ii);
+                        if (XOR(data, ii) == true) {
+                            GSV(data, ii);
+                        }
+                        else{
+                            System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowa suma kontrolna");
+                        }
                     }
                     else if (data[ii][0].substring(3,6).equals("GSV") && (data[ii][19] == null || data[ii][20] != null)){
                         System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowo podane dane");
                     }
 
                     else if(data[ii][0].substring(3,6).equals("GLL") && data[ii][6] != null && data[ii][7] == null){
-                        GLL(data, ii);
+                        if (XOR(data, ii) == true){
+                            GLL(data, ii);
+                        }
+                        else{
+                            System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowa suma kontrolna");
+                        }
                     }
                     else if (data[ii][0].substring(3,6).equals("GLL") && (data[ii][6] == null || data[ii][7] != null)){
                         System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowo podane dane");
                     }
 
                     else if(data[ii][0].substring(3,6).equals("VTG") && data[ii][8] != null && data[ii][9] == null){
-                        VTG(data, ii);
+                        if (XOR(data, ii) == true) {
+                            VTG(data, ii);
+                        }
+                        else{
+                            System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowa suma kontrolna");
+                        }
                     }
                     else if (data[ii][0].substring(3,6).equals("VTG") && (data[ii][8] == null || data[ii][9] != null)){
                         System.out.println("\n" + data[ii][0].substring(3,6) + " - nieprawidlowo podane dane");
